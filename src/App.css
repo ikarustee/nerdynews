@@ -1,3 +1,32 @@
+body {
+  display:flex;
+  justify-content: center;
+  padding: 3em 0;
+}
 .App {
   text-align: left;
+  /* width:100%; */
+  width: 800px;
+}
+.hn-header {
+  background-color: dodgerblue;
+  display:flex;
+  padding: 1em;
+}
+.hn-header h3 {
+  color:white;
+}
+.searchform {
+  padding: 1em;
+}
+.searchresults {
+  background-color: #eeeef1;
+  padding: 1em;
+}
+article {
+  padding: 0.5em 0;
+}
+article a {
+  color:dodgerblue;
+  text-decoration: none;
 }

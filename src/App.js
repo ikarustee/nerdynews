@@ -3,56 +3,56 @@ import {useState, useEffect} from "react"
 
 function App() {
   const [articles, setArticles] = useState([])
-  const [userInput, setUserinput] = useState('')
-  const [spinner, setSpinner] = useState(false)
-  
+  const [userInput, setUserInput] = useState('')
+
+  // Create a function to get the API
   const searchResults = () => {
-    fetch("https://hn.algolia.com/api/v1/search?query=" + userInput)
+    fetch('http://hn.algolia.com/api/v1/search?query=' + userInput)
     .then((res) => res.json())
-    .then((res) => {
-      setArticles(res.hits)
-      setSpinner(false)
-    })
+    .then((res) => setArticles(res.hits))
   }
-  const handleSearch = (event) => {
-    event.preventDefault()
+  
+  // Get the user input from the input field
+  const getUserInput = (e) => {
+    e.preventDefault()
+    setUserInput(e.target.value)
+  }
+
+  // When the user presses 'Enter' or clicks the search button the searchResults() function will be called
+  const getSearchResults = (e) => {
+    e.preventDefault()
     searchResults()
-    setUserinput('')
+    setUserInput('')
   }
+
+  // Loads results initially 
   useEffect(() => {
-    setSpinner(true)
     searchResults()
   }, [])
-  
-  // Get the user input
-  const updateUserInput = (e) => {
-    setUserinput(e.target.value)
-  }
-
-  // Define the function for the form
-  // invoke search results function
-  // empty the input field
-
-
+    
   return (
     <div className="App">
-    <div className='filterbar'>Hacker News new | past | comments | ask | show | jobs | submit</div>
-    <form onSubmit={handleSearch}>
-      <input 
-        type="text"
-        onChange={updateUserInput}
-        value={userInput}
-        placeholder='Search for ...'
-      />
-      <button type="submit">Search news</button>
-    </form>
-    <div className='articles'>
-      <ol>
-      {articles
-      .map((article) => 
-        <li key={article.objectID}>{article.title}</li>
-      )}
-      </ol>
+    <div className="hn-header">
+      <h3>Hackernews</h3>
+      <div className="searchform">
+        <form onSubmit={getSearchResults}>
+          <input
+          onChange={getUserInput}
+          value={userInput}
+          type="text"
+          placeholder="Search ..."
+          />
+          <button type="submit">Go!</button>
+        </form>
+      </div>
+    </div>
+    <div className="searchresults">
+    {articles
+    .map((a) => 
+      <article key={a.objectID} className='article'>
+        <a href={a.url}>{a.title}</a>
+      </article>
+    )}
     </div>
     </div>
   );
