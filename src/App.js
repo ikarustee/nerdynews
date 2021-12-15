@@ -1,10 +1,13 @@
 import './App.css';
 import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
+
 function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  // const [error, setError] = useState('')
 
   // Create a function to get the API
   const searchResults = () => {
@@ -12,16 +15,15 @@ function App() {
     setTimeout(() => {
       fetch('http://hn.algolia.com/api/v1/search?query=' + userInput)
       .then((res) => {
-        console.log(res)
-        if(!res.ok) {
-          throw Error('No match!')
-        } 
-        return res.json()
+        // console.log(res)
+        if(res.ok) return res.json()
+          throw new Error('No match!') 
       })
       .then((res) => {
         setArticles(res.hits);
         setIsLoading(false)
       });
+      // .catch((error)) => setError(error.message);
     }, 2000)
   }
   
@@ -57,7 +59,12 @@ function App() {
           type="text"
           placeholder="Search ..."
           />
-          <button type="submit">Go!</button>
+          <button type="submit">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="4.36289" cy="4.36289" r="3.86289" stroke="currentColor"></circle>
+                <rect width="1.09072" height="5.21053" rx="0.545362" transform="matrix(0.707106 -0.707108 0.707106 0.707108 6.54434 7.31555)" fill="currentColor"></rect>
+              </svg>
+          </button>
         </form>
       </div>
     </div>
@@ -65,7 +72,7 @@ function App() {
       <div className="searchresults"><Loader /></div>
     ) : articles.length === 0 ? (
       <div className="searchresults">
-        <h4>No results</h4>
+        <h4>Oooops. No results found. Try again.</h4>
       </div>
     ) : (
       <div className="searchresults">
@@ -75,6 +82,7 @@ function App() {
           <a href={a.url}>{a.title}</a>
         </article>
       )}
+      <div className="pagination">{currentPage}</div>
       </div>
     )}
 
