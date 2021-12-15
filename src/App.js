@@ -11,7 +11,13 @@ function App() {
     // setIsLoading(true)
     setTimeout(() => {
       fetch('http://hn.algolia.com/api/v1/search?query=' + userInput)
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+        if(!res.ok) {
+          throw Error('No match!')
+        } 
+        return res.json()
+      })
       .then((res) => {
         setArticles(res.hits);
         setIsLoading(false)
@@ -57,6 +63,10 @@ function App() {
     </div>
     {isLoading ? (
       <div className="searchresults"><Loader /></div>
+    ) : articles.length === 0 ? (
+      <div className="searchresults">
+        <h4>No results</h4>
+      </div>
     ) : (
       <div className="searchresults">
       {articles
