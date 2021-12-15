@@ -1,12 +1,12 @@
 body {
   display:flex;
   justify-content: center;
-  padding: 3em 0;
+  padding: 3em 1em;
 }
 .App {
   text-align: left;
   /* width:100%; */
-  width: 800px;
+  width: calc(100vw - 40px);
 }
 .hn-header {
   background-color: dodgerblue;
@@ -29,4 +29,7 @@ article {
 article a {
   color:dodgerblue;
   text-decoration: none;
+}
+.loader {
+  text-align: center;
 }
