@@ -7,23 +7,29 @@ function App() {
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  // const [error, setError] = useState('')
+  const [hitsPerPage, setHitsPerPage] = useState(10)
+  const [paginationRange, setPaginationRange] = useState(8)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    searchResults()
+  }, [currentPage])
 
   // Create a function to get the API
   const searchResults = () => {
-    // setIsLoading(true)
+    setIsLoading(true)
     setTimeout(() => {
       fetch('http://hn.algolia.com/api/v1/search?query=' + userInput)
       .then((res) => {
         // console.log(res)
         if(res.ok) return res.json()
-          throw new Error('No match!') 
+          throw new Error('Something went wrong.') 
       })
       .then((res) => {
         setArticles(res.hits);
         setIsLoading(false)
-      });
-      // .catch((error)) => setError(error.message);
+      })
+      .catch((error) => setError(error.message));
     }, 2000)
   }
   
@@ -82,7 +88,7 @@ function App() {
           <a href={a.url}>{a.title}</a>
         </article>
       )}
-      <div className="pagination">{currentPage}</div>
+      {/* <Pagination currentPage={currentPage} /> */}
       </div>
     )}
 
@@ -91,3 +97,28 @@ function App() {
 }
 
 export default App;
+
+// function Pagination ({currentPage, setCurrentPage, paginationRange, }) {
+//   const paginationArray = []
+
+//   if(currentPage < paginationRange / 2) {
+//     for (let i = 0; i < paginationArray; i++) {
+//       paginationArray.push(0 + i)
+//     }
+//   } else {
+//     for (let i = 0; i < paginationArray; i++) {
+//       paginationArray.push(currentPage - paginationRange / 2 + i)
+//     }
+//   }
+
+//   // console.log(paginationArray)
+
+//   return (
+//     <div className="pagination">
+//       <p>Page {currentPage}</p>
+//       {/* {paginationArray
+//       .map(pages)
+//       } */}
+//     </div>
+//   )
+// }
