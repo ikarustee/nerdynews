@@ -6,20 +6,19 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [activePageIndex, setActivePageIndex] = useState(0)
   const [hitsPerPage, setHitsPerPage] = useState(10)
-  const [paginationRange, setPaginationRange] = useState(8)
   const [error, setError] = useState('')
 
   useEffect(() => {
     searchResults()
-  }, [currentPage])
+  }, [activePageIndex])
 
   // Create a function to get the API
   const searchResults = () => {
     setIsLoading(true)
     setTimeout(() => {
-      fetch('http://hn.algolia.com/api/v1/search?query=' + userInput)
+      fetch(`http://hn.algolia.com/api/v1/search?query=${userInput}&page=${activePageIndex}&hitsPerPage=${hitsPerPage}`)
       .then((res) => {
         // console.log(res)
         if(res.ok) return res.json()
@@ -29,7 +28,7 @@ function App() {
         setArticles(res.hits);
         setIsLoading(false)
       })
-      .catch((error) => setError(error.message));
+      .catch((error) => console.log(error.message));
     }, 2000)
   }
   
@@ -88,7 +87,7 @@ function App() {
           <a href={a.url}>{a.title}</a>
         </article>
       )}
-      {/* <Pagination currentPage={currentPage} /> */}
+      <Pagination activePageIndex={activePageIndex} setActivePageIndex={setActivePageIndex} />
       </div>
     )}
 
@@ -98,27 +97,22 @@ function App() {
 
 export default App;
 
-// function Pagination ({currentPage, setCurrentPage, paginationRange, }) {
-//   const paginationArray = []
-
-//   if(currentPage < paginationRange / 2) {
-//     for (let i = 0; i < paginationArray; i++) {
-//       paginationArray.push(0 + i)
-//     }
-//   } else {
-//     for (let i = 0; i < paginationArray; i++) {
-//       paginationArray.push(currentPage - paginationRange / 2 + i)
-//     }
-//   }
-
-//   // console.log(paginationArray)
-
-//   return (
-//     <div className="pagination">
-//       <p>Page {currentPage}</p>
-//       {/* {paginationArray
-//       .map(pages)
-//       } */}
-//     </div>
-//   )
-// }
+function Pagination({ activePageIndex, setActivePageIndex }) {
+  return (
+    <>
+      {[...Array(10)].map((p, i) => {
+        const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
+        return (
+          <button
+            onClick={() => setActivePageIndex(ind)}
+            style={{
+              background: ind === activePageIndex ? "green" : ""
+            }}
+          >
+            {ind}
+          </button>
+        );
+      })}
+    </>
+  );
+}
