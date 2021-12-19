@@ -73,9 +73,11 @@ function App() {
           </button>
         </form>
       </div>
+    </div>
+    <main>
       <Articles articles={articles} />
       <Pagination activePageIndex={activePage} changePage={changePage}/>
-    </div>
+    </main>
     </div>
   );
 }
@@ -85,10 +87,12 @@ export default App;
 function Articles({articles}) {
   return (
     <div className="articles">
+      <article>
       {articles
       .map((a) => 
       <li key={a.objectID}>{a.title}</li>
       )}
+      </article>
     </div>
   )
 }

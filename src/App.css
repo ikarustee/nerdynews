@@ -11,35 +11,45 @@ body {
 }
 .hn-header {
   background-color: dodgerblue;
-  
+  display:flex;
   padding: 1em;
 }
 .hn-header h3 {
   color:white;
 }
 .searchform {
-  display: flex;
-  width: 100%;
-  padding: 1em;
+  padding: 1em 0;
 }
 .searchresults {
   background-color: #eeeef1;
   padding: 1em;
 }
-article {
-  padding: 0.5em 0;
+main {
+  background:#f3f3f3;
+  padding: 0.5em 1em;
 }
 article a {
   color:dodgerblue;
   text-decoration: none;
 }
-li {
-  list-style: none;
-}
 .loader {
   text-align: center;
 }
 h4 {font-family: 'Roboto Mono', monospace;}
-.page.current {
-  background:green;
+li {list-style:none}
+
+.page {
+  border:0;
+  background:white;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.page:hover {
+  background-color: rgb(137, 196, 255);
+  color:white;
+}
+.page.active {
+  background: dodgerblue;
+  color:white;
 }
