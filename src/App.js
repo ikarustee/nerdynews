@@ -5,16 +5,26 @@ import Loader from "./components/Loader"
 function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
+  const [hitsPerPage, setHitsPerPage] = useState(12)
+  const [activePage, setActivePage] = useState(0)
 
   // Initial fetch
   useEffect(() => {
-    fetch(`https://hn.algolia.com/api/v1/search_by_date?query=`)
-    .then((res) => res.json())
-    .then((res) => setArticles(res.hits))
-  }, [])
+    setTimeout(() => {
+      fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
+      .then((res) => {
+        if(res.ok) {
+          return res.json()
+        } else {
+          throw new Error(res.status)
+        }
+      })
+      .then((res) => setArticles(res.hits))
+    }, 1000)
+  }, [activePage])
 
   const getResults = () => {
-    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}`)
+    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
     .then((res) => {
       if(res.ok) {
         return res.json()
@@ -38,6 +48,10 @@ function App() {
     setUserInput('')
   }
 
+  const changePage = (ind) => {
+    setActivePage(ind)
+  }
+
   return (
     <div className="App">
     <div className="hn-header">
@@ -48,6 +62,7 @@ function App() {
           onChange={getUserInput}
           value={userInput}
           type="text"
+          name="userquery"
           placeholder="Search ..."
           />
           <button type="submit">
@@ -59,6 +74,7 @@ function App() {
         </form>
       </div>
       <Articles articles={articles} />
+      <Pagination activePageIndex={activePage} changePage={changePage}/>
     </div>
     </div>
   );
@@ -75,4 +91,24 @@ function Articles({articles}) {
       )}
     </div>
   )
+}
+
+function Pagination({ activePageIndex, changePage }) {
+  return (
+    <>
+      {[...Array(10)].map((p, i) => {
+        const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
+        return (
+          <button
+            onClick={() => changePage(ind)}
+            style={{
+              background: ind === activePageIndex ? "green" : ""
+            }}
+          >
+            {ind}
+          </button>
+        );
+      })}
+    </>
+  );
 }

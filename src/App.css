@@ -33,6 +33,9 @@ article a {
   color:dodgerblue;
   text-decoration: none;
 }
+li {
+  list-style: none;
+}
 .loader {
   text-align: center;
 }
