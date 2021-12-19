@@ -5,7 +5,7 @@ import Loader from "./components/Loader"
 function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
-  const [hitsPerPage, setHitsPerPage] = useState(12)
+  const [hitsPerPage, setHitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
 
   // Initial fetch
@@ -24,7 +24,7 @@ function App() {
   }, [activePage])
 
   const getResults = () => {
-    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
+    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}`)
     .then((res) => {
       if(res.ok) {
         return res.json()
@@ -90,7 +90,7 @@ function Articles({articles}) {
       <article>
       {articles
       .map((a) => 
-      <li key={a.objectID}>{a.title}</li>
+        <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
       )}
       </article>
     </div>
@@ -100,17 +100,19 @@ function Articles({articles}) {
 function Pagination({ activePageIndex, changePage }) {
   return (
     <>
+    <div className="pagination">
       {[...Array(10)].map((p, i) => {
         const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
         return (
-          <button
-            onClick={() => changePage(ind)}
-            className={`page ${ind === activePageIndex ? 'active' : ''}`}
-          >
-            {ind}
-          </button>
+            <button
+              onClick={() => changePage(ind)}
+              className={`page ${ind === activePageIndex ? 'active' : ''}`}
+            >
+              {ind}
+            </button>
         );
       })}
+    </div>
     </>
   );
 }
