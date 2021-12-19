@@ -101,9 +101,7 @@ function Pagination({ activePageIndex, changePage }) {
         return (
           <button
             onClick={() => changePage(ind)}
-            style={{
-              background: ind === activePageIndex ? "green" : ""
-            }}
+            className={`page ${ind === activePageIndex ? 'active' : ''}`}
           >
             {ind}
           </button>
