@@ -6,21 +6,31 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
 
+  // Initial fetch
   useEffect(() => {
     fetch(`http://hn.algolia.com/api/v1/search_by_date?query=`)
     .then((res) => res.json())
     .then((res) => setArticles(res.hits))
   }, [])
 
+  const getUserInput = (e) => {
+    e.preventDefault()
+    setUserInput(e.target.value)
+  }
+
+  const getSearchResults = (e) => {
+    e.preventDefault()
+  }
+
   return (
     <div className="App">
     <div className="hn-header">
       <h3>Hackernews</h3>
       <div className="searchform">
-        <form /*onSubmit={getSearchResults} */>
+        <form onSubmit={getSearchResults} >
           <input
-          // onChange={getUserInput}
-          // value={userInput}
+          onChange={getUserInput}
+          value={userInput}
           type="text"
           placeholder="Search ..."
           />
