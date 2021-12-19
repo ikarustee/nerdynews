@@ -11,13 +11,15 @@ body {
 }
 .hn-header {
   background-color: dodgerblue;
-  display:flex;
+  
   padding: 1em;
 }
 .hn-header h3 {
   color:white;
 }
 .searchform {
+  display: flex;
+  width: 100%;
   padding: 1em;
 }
 .searchresults {

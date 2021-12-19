@@ -8,18 +8,34 @@ function App() {
 
   // Initial fetch
   useEffect(() => {
-    fetch(`http://hn.algolia.com/api/v1/search_by_date?query=`)
+    fetch(`https://hn.algolia.com/api/v1/search_by_date?query=`)
     .then((res) => res.json())
     .then((res) => setArticles(res.hits))
   }, [])
 
+  const getResults = () => {
+    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}`)
+    .then((res) => {
+      if(res.ok) {
+        return res.json()
+      } else {
+        throw new Error(res.status)
+      }
+    })
+    .then((res) => setArticles(res.hits))
+    .catch((error) => console.log(error.message))
+  }
+
   const getUserInput = (e) => {
     e.preventDefault()
+    // console.log(e.target.value)
     setUserInput(e.target.value)
   }
 
   const getSearchResults = (e) => {
     e.preventDefault()
+    getResults()
+    setUserInput('')
   }
 
   return (
@@ -55,7 +71,7 @@ function Articles({articles}) {
     <div className="articles">
       {articles
       .map((a) => 
-      <li key={a.objectID}>{a.story_title}</li>
+      <li key={a.objectID}>{a.title}</li>
       )}
     </div>
   )
