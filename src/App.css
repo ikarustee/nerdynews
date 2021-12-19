@@ -35,3 +35,6 @@ article a {
   text-align: center;
 }
 h4 {font-family: 'Roboto Mono', monospace;}
+.page.current {
+  background:green;
+}
