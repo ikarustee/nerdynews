@@ -5,11 +5,13 @@ import Loader from "./components/Loader"
 function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [hitsPerPage, setHitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
 
   // Initial fetch
   useEffect(() => {
+    setIsLoading(false)
     setTimeout(() => {
       fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
       .then((res) => {
@@ -24,6 +26,7 @@ function App() {
   }, [activePage])
 
   const getResults = () => {
+    setIsLoading(true)
     fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}`)
     .then((res) => {
       if(res.ok) {
@@ -32,7 +35,10 @@ function App() {
         throw new Error(res.status)
       }
     })
-    .then((res) => setArticles(res.hits))
+    .then((res) => {
+      setArticles(res.hits)
+      setIsLoading(false)
+    })
     .catch((error) => console.log(error.message))
   }
 
@@ -75,7 +81,24 @@ function App() {
       </div>
     </div>
     <main>
-      <Articles articles={articles} />
+    <div className="articles">
+    {isLoading ? (
+      <div className="searchresults"><Loader /></div>
+    ) : articles.length === 0 ? (
+      <div className="searchresults">
+        <h4>Oooops. No results found. Try again.</h4>
+      </div>
+    ) : (
+      <div className="searchresults">
+      {articles
+      .map((a) => 
+        <article key={a.objectID} className='article'>
+          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
+        </article>
+      )}
+      </div> 
+    )}
+    </div>
       <Pagination activePageIndex={activePage} changePage={changePage}/>
     </main>
     </div>
@@ -84,18 +107,18 @@ function App() {
 
 export default App; 
 
-function Articles({articles}) {
-  return (
-    <div className="articles">
-      <article>
-      {articles
-      .map((a) => 
-        <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
-      )}
-      </article>
-    </div>
-  )
-}
+// function Articles({articles}) {
+//   return (
+//     <div className="articles">
+//       <article>
+//       {articles
+//       .map((a) => 
+//         <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
+//       )}
+//       </article>
+//     </div>
+//   )
+// }
 
 function Pagination({ activePageIndex, changePage }) {
   return (

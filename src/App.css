@@ -22,13 +22,12 @@ body {
   padding: 1em 0;
   margin-left: 1em;
 }
-.searchresults {
-  background-color: #eeeef1;
-  padding: 1em;
-}
 main {
   background:#f3f3f3;
   padding: 0.5em 1em;
+}
+.articles {
+  padding: 1em 0;
 }
 article a {
   color:dodgerblue;
