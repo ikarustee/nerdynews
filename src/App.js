@@ -4,10 +4,11 @@ import Loader from "./components/Loader"
 
 function App() {
   const [articles, setArticles] = useState([])
-  const [userInput, setUserInput] = useState('')
+  const [userInput, setUserInput] = useState('tesla')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage, setHitsPerPage] = useState(10)
+  const [hitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
 
   // Initial fetch
   useEffect(() => {
@@ -23,10 +24,13 @@ function App() {
       })
       .then((res) => {
         setArticles(res.hits)
+        //console.log(res.nbHits)
+        setTotalPages(res.nbPages)
+        // console.log(res.nbPages)
         setIsLoading(false)
       })
     }, 1000)
-  }, [activePage, userInput, hitsPerPage])
+  }, [activePage, userInput, hitsPerPage, totalPages])
 
   // const getResults = () => {
   //   setIsLoading(true)
@@ -81,13 +85,18 @@ function App() {
       {articles
       .map((a) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
+          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
     )}
     </div>
-      <Pagination activePageIndex={activePage} changePage={changePage} setActivePageIndex={setActivePage}/>
+      <Pagination 
+      activePageIndex={activePage} 
+      changePage={changePage} 
+      setActivePageIndex={setActivePage} 
+      setTotalPages={totalPages} 
+      />
     </main>
     </div>
   );
@@ -140,16 +149,18 @@ function Search({getQuery, setActivePage}) {
 //   )
 // }
 
-function Pagination({ activePageIndex, changePage, setActivePageIndex }) {
+function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages }) {
+  // nbHits
 
   return (
     <>
     <div className="pagination">
-    {activePageIndex === 0 ? (
-      <button className="page disabled">&#5176;</button>
-    ) : (
-      <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
-    )} 
+    <p>Total pages: {setTotalPages}</p>
+      {activePageIndex === 0 ? (
+        <button className="page disabled">&#5176;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
+      )} 
       {[...Array(10)].map((p, i) => {
         /* Offset on pagination*/
         const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
@@ -157,6 +168,7 @@ function Pagination({ activePageIndex, changePage, setActivePageIndex }) {
             <button
               onClick={() => changePage(ind)}
               className={`page ${ind === activePageIndex ? 'active' : ''}`}
+              key={i}
             >
               {ind + 1}
             </button>
