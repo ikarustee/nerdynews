@@ -4,7 +4,7 @@ import Loader from "./components/Loader"
 
 function App() {
   const [articles, setArticles] = useState([])
-  const [userInput, setUserInput] = useState('tesla')
+  const [userInput, setUserInput] = useState('web development')
   const [isLoading, setIsLoading] = useState(false)
   const [hitsPerPage] = useState(20)
   const [activePage, setActivePage] = useState(0)
@@ -31,37 +31,9 @@ function App() {
         // console.log(res.nbPages)
         setIsLoading(false)
       })
+      .catch((error) => console.log(error))
     }, 1000)
   }, [activePage, userInput, hitsPerPage, totalPages])
-
-  // const getResults = () => {
-  //   setIsLoading(true)
-  //   fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}`)
-  //   .then((res) => {
-  //     if(res.ok) {
-  //       return res.json()
-  //     } else {
-  //       throw new Error(res.status)
-  //     }
-  //   })
-  //   .then((res) => {
-  //     setArticles(res.hits)
-  //     setIsLoading(false)
-  //   })
-  //   .catch((error) => console.log(error.message))
-  // }
-
-  // const getUserInput = (e) => {
-  //   e.preventDefault()
-  //   // console.log(e.target.value)
-  //   setUserInput(e.target.value)
-  // }
-
-  // const getSearchResults = (e) => {
-  //   e.preventDefault()
-  //   getResults()
-  //   setUserInput('')
-  // }
 
   const changePage = (ind) => {
     setActivePage(ind)
