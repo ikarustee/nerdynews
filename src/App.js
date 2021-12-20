@@ -109,7 +109,7 @@ function Articles({articles, isLoading}) {
       {articles
       .map((a) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title || a.story_title}</a></li>
+          <li key={a.objectID}><a href={a.url} alt={a.title} target="_blank">{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
