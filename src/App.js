@@ -6,7 +6,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('tesla')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage] = useState(10)
+  const [hitsPerPage] = useState(20)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
 
@@ -96,6 +96,7 @@ function App() {
       changePage={changePage} 
       setActivePageIndex={setActivePage} 
       setTotalPages={totalPages} 
+      totalPages={totalPages}
       />
     </main>
     </div>
@@ -149,7 +150,7 @@ function Search({getQuery, setActivePage}) {
 //   )
 // }
 
-function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages }) {
+function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages }) {
   // nbHits
 
   return (
@@ -157,11 +158,16 @@ function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalP
     <div className="pagination">
     <p>Total pages: {setTotalPages}</p>
       {activePageIndex === 0 ? (
+        <button className="page arrow disabled">&#5176;&#5176;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(0)} className="page arrow">&#5176;&#5176;</button>
+      )}
+      {activePageIndex === 0 ? (
         <button className="page disabled">&#5176;</button>
       ) : (
         <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
       )} 
-      {[...Array(10)].map((p, i) => {
+      {[...Array(totalPages)].map((p, i) => {
         /* Offset on pagination*/
         const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
         return (
@@ -178,7 +184,12 @@ function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalP
         <button className="page disabled">&#5171;</button>
       ) : (
         <button onClick={() => setActivePageIndex(activePageIndex + 1)} className="page arrow">&#5171;</button>
-      ) }
+      )}
+      {activePageIndex === totalPages ? (
+        <button className="page arrow disabled">&#5171;&#5171;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(totalPages)} className="page arrow">&#5171;&#5171;</button>
+      )}
     </div>
     </>
   );
