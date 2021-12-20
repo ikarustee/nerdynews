@@ -9,6 +9,7 @@ function App() {
   const [hitsPerPage] = useState(20)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
+  const [totalResults, setTotalResults] = useState(0)
 
   // Initial fetch
   useEffect(() => {
@@ -24,8 +25,9 @@ function App() {
       })
       .then((res) => {
         setArticles(res.hits)
-        //console.log(res.nbHits)
         setTotalPages(res.nbPages)
+        setTotalResults(res.nbHits)
+        // console.log(res.nbHits)
         // console.log(res.nbPages)
         setIsLoading(false)
       })
@@ -73,30 +75,14 @@ function App() {
       <Search getQuery={(userInput) => setUserInput(userInput)} setActivePage={setActivePage} />
     </div>
     <main>
-    <div className="articles">
-    {isLoading ? (
-      <div className="searchresults"><Loader /></div>
-    ) : articles.length === 0 ? (
-      <div className="searchresults">
-        <h4>Oooops. No results found. Try again.</h4>
-      </div>
-    ) : (
-      <div className="searchresults">
-      {articles
-      .map((a) => 
-        <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title || a.story_title}</a></li>
-        </article>
-      )}
-      </div> 
-    )}
-    </div>
+      <Articles articles={articles} isLoading={isLoading} />
       <Pagination 
       activePageIndex={activePage} 
       changePage={changePage} 
       setActivePageIndex={setActivePage} 
       setTotalPages={totalPages} 
       totalPages={totalPages}
+      setTotalResults={totalResults}
       />
     </main>
     </div>
@@ -137,26 +123,35 @@ function Search({getQuery, setActivePage}) {
   )
 }
 
-// function Articles({articles}) {
-//   return (
-//     <div className="articles">
-//       <article>
-//       {articles
-//       .map((a) => 
-//         <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
-//       )}
-//       </article>
-//     </div>
-//   )
-// }
+function Articles({articles, isLoading}) {
+  return (
+    <div className="articles">
+    {isLoading ? (
+      <div className="searchresults"><Loader /></div>
+    ) : articles.length === 0 ? (
+      <div className="searchresults">
+        <h4>Oooops. No results found. Try again.</h4>
+      </div>
+    ) : (
+      <div className="searchresults">
+      {articles
+      .map((a) => 
+        <article key={a.objectID} className='article'>
+          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title || a.story_title}</a></li>
+        </article>
+      )}
+      </div> 
+    )}
+    </div>
+  )
+}
 
-function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages }) {
-  // nbHits
+function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages, setTotalResults }) {
 
   return (
     <>
     <div className="pagination">
-    <p>Total pages: {setTotalPages}</p>
+    <p>Total pages: {setTotalPages} | Total results: {setTotalResults}</p>
       {activePageIndex === 0 ? (
         <button className="page arrow disabled">&#5176;&#5176;</button>
       ) : (
