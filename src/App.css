@@ -23,7 +23,7 @@ body {
   margin-left: 1em;
 }
 main {
-  background:#f3f3f3;
+  background:#f1f1f1;
   padding: 0.5em 1em;
 }
 .articles {
@@ -44,14 +44,26 @@ li {
 .pagination {
   margin: 12px 0;
 }
+.page.arrow{
+  position: relative;
+  top:1px;
+}
+.page.disabled {
+  background:#f3f3f3;
+  color:#555;
+  cursor: pointer;
+  pointer-events: none;
+}
 .page {
   display: inline-block;
-  border:0;
-  background:white;
-  padding: 6px 10px;
+  border: 0;
+  background: white;
+  /* padding: 6px 10px; */
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin-right: 1px;
+  width: 30px;
+  height: 30px;
 }
 .page:hover {
   background-color: rgb(137, 196, 255);

@@ -4,14 +4,16 @@ import Loader from "./components/Loader"
 
 function App() {
   const [articles, setArticles] = useState([])
-  const [userInput, setUserInput] = useState('')
+  const [userInput, setUserInput] = useState('web development')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage, setHitsPerPage] = useState(10)
+  const [hitsPerPage] = useState(20)
   const [activePage, setActivePage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [totalResults, setTotalResults] = useState(0)
 
   // Initial fetch
   useEffect(() => {
-    setIsLoading(false)
+    setIsLoading(true)
     setTimeout(() => {
       fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
       .then((res) => {
@@ -21,66 +23,80 @@ function App() {
           throw new Error(res.status)
         }
       })
-      .then((res) => setArticles(res.hits))
+      .then((res) => {
+        setArticles(res.hits)
+        setTotalPages(res.nbPages)
+        setTotalResults(res.nbHits)
+        // console.log(res.nbHits)
+        // console.log(res.nbPages)
+        setIsLoading(false)
+      })
+      .catch((error) => console.log(error))
     }, 1000)
-  }, [activePage])
-
-  const getResults = () => {
-    setIsLoading(true)
-    fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}`)
-    .then((res) => {
-      if(res.ok) {
-        return res.json()
-      } else {
-        throw new Error(res.status)
-      }
-    })
-    .then((res) => {
-      setArticles(res.hits)
-      setIsLoading(false)
-    })
-    .catch((error) => console.log(error.message))
-  }
-
-  const getUserInput = (e) => {
-    e.preventDefault()
-    // console.log(e.target.value)
-    setUserInput(e.target.value)
-  }
-
-  const getSearchResults = (e) => {
-    e.preventDefault()
-    getResults()
-    setUserInput('')
-  }
+  }, [activePage, userInput, hitsPerPage, totalPages])
 
   const changePage = (ind) => {
     setActivePage(ind)
+    window.scrollTo(0,0)
   }
 
   return (
     <div className="App">
     <div className="hn-header">
       <h3>Hackernews</h3>
-      <div className="searchform">
-        <form onSubmit={getSearchResults} >
-          <input
-          onChange={getUserInput}
-          value={userInput}
-          type="text"
-          name="userquery"
-          placeholder="Search ..."
-          />
-          <button type="submit">
-          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="4.36289" cy="4.36289" r="3.86289" stroke="currentColor"></circle>
-                <rect width="1.09072" height="5.21053" rx="0.545362" transform="matrix(0.707106 -0.707108 0.707106 0.707108 6.54434 7.31555)" fill="currentColor"></rect>
-              </svg>
-          </button>
-        </form>
-      </div>
+      <Search getQuery={(userInput) => setUserInput(userInput)} setActivePage={setActivePage} />
     </div>
     <main>
+      <Articles articles={articles} isLoading={isLoading} />
+      <Pagination 
+      activePageIndex={activePage} 
+      changePage={changePage} 
+      setActivePageIndex={setActivePage} 
+      setTotalPages={totalPages} 
+      totalPages={totalPages}
+      setTotalResults={totalResults}
+      />
+    </main>
+    </div>
+  );
+}
+
+export default App; 
+
+function Search({getQuery, setActivePage}) {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const searchTerm = e.target.userquery.value
+    if(searchTerm) {
+      getQuery(searchTerm)
+      // console.log(searchTerm)
+      e.target.userquery.value = ''
+      setActivePage(0)
+    } else {
+      alert('Please enter a search term e.g. Obama')
+    }
+  }
+  return (
+    <div className="searchform">
+    <form onSubmit={handleSubmit} >
+      <input
+      type="text"
+      name="userquery"
+      placeholder="Search ..."
+      />
+      <button type="submit">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="4.36289" cy="4.36289" r="3.86289" stroke="currentColor"></circle>
+            <rect width="1.09072" height="5.21053" rx="0.545362" transform="matrix(0.707106 -0.707108 0.707106 0.707108 6.54434 7.31555)" fill="currentColor"></rect>
+          </svg>
+      </button>
+    </form>
+  </div>
+  )
+}
+
+function Articles({articles, isLoading}) {
+  return (
     <div className="articles">
     {isLoading ? (
       <div className="searchresults"><Loader /></div>
@@ -93,48 +109,54 @@ function App() {
       {articles
       .map((a) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
+          <li key={a.objectID}><a href={a.url} alt={a.title} target="_blank">{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
     )}
     </div>
-      <Pagination activePageIndex={activePage} changePage={changePage}/>
-    </main>
-    </div>
-  );
+  )
 }
 
-export default App; 
+function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages, setTotalResults }) {
 
-// function Articles({articles}) {
-//   return (
-//     <div className="articles">
-//       <article>
-//       {articles
-//       .map((a) => 
-//         <li key={a.objectID}><a href={a.url} alt={a.title}>{a.title}</a></li>
-//       )}
-//       </article>
-//     </div>
-//   )
-// }
-
-function Pagination({ activePageIndex, changePage }) {
   return (
     <>
     <div className="pagination">
-      {[...Array(10)].map((p, i) => {
+    <p>Total pages: {setTotalPages} | Total results: {setTotalResults}</p>
+      {activePageIndex === 0 ? (
+        <button className="page arrow disabled">&#5176;&#5176;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(0)} className="page arrow">&#5176;&#5176;</button>
+      )}
+      {activePageIndex === 0 ? (
+        <button className="page disabled">&#5176;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
+      )} 
+      {[...Array(totalPages)].map((p, i) => {
+        /* Offset on pagination*/
         const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
         return (
             <button
               onClick={() => changePage(ind)}
               className={`page ${ind === activePageIndex ? 'active' : ''}`}
+              key={i}
             >
-              {ind}
+              {ind + 1}
             </button>
         );
       })}
+      {activePageIndex === activePageIndex.length - 1 ? (
+        <button className="page disabled">&#5171;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(activePageIndex + 1)} className="page arrow">&#5171;</button>
+      )}
+      {activePageIndex === totalPages ? (
+        <button className="page arrow disabled">&#5171;&#5171;</button>
+      ) : (
+        <button onClick={() => setActivePageIndex(totalPages)} className="page arrow">&#5171;&#5171;</button>
+      )}
     </div>
     </>
   );
