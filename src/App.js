@@ -147,12 +147,12 @@ function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalP
             </button>
         );
       })}
-      {activePageIndex === activePageIndex.length - 1 ? (
+      {activePageIndex >= totalPages - 1 ? (
         <button className="page disabled">&#5171;</button>
       ) : (
         <button onClick={() => setActivePageIndex(activePageIndex + 1)} className="page arrow">&#5171;</button>
       )}
-      {activePageIndex === totalPages ? (
+      {activePageIndex >= totalPages - 1 ? (
         <button className="page arrow disabled">&#5171;&#5171;</button>
       ) : (
         <button onClick={() => setActivePageIndex(totalPages)} className="page arrow">&#5171;&#5171;</button>
