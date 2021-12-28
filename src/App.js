@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import PaginationExamplePagination from './components/Pagination';
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   const [articles, setArticles] = useState([])
@@ -49,7 +50,7 @@ function App() {
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} />
-      <PaginationExamplePagination />
+      <PaginationExamplePagination totalPages={totalPages} />
       {/* <Pagination 
       activePageIndex={activePage} 
       changePage={changePage} 
