@@ -11,7 +11,7 @@ function App() {
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [hitsPerPage] = useState(10)
-  const [activePage, setActivePage] = useState(1)
+  const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
 
@@ -63,9 +63,9 @@ function App() {
         {articles.map((_, index) => {
           return (
             <Pagination.Item 
-            onClick={() => changePage(index + 1)}
+            onClick={() => changePage(index)}
             key={index + 1}
-            active={index + 1 === activePage}
+            active={index === activePage}
             >
             {index + 1}
             </Pagination.Item>
