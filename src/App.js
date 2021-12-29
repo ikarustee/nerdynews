@@ -11,7 +11,7 @@ function App() {
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [hitsPerPage] = useState(10)
-  const [activePage, setActivePage] = useState(0)
+  const [activePage, setActivePage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
 
@@ -45,6 +45,7 @@ function App() {
 
   const changePage = (index) => {
     setActivePage(index)
+    // setArticles((prev) => ({...prev, activePage: activePage}))
     window.scrollTo(0,0)
   }
 
@@ -57,8 +58,8 @@ function App() {
     <main>
       <Articles articles={articles} isLoading={isLoading} />
       <Pagination>
-        <Pagination.First />
-        <Pagination.Prev />
+        <Pagination.First onClick={() => setActivePage(0)}/>
+        <Pagination.Prev onClick={() => setActivePage(activePage - 1)} />
         {articles.map((_, index) => {
           return (
             <Pagination.Item 
@@ -70,8 +71,8 @@ function App() {
             </Pagination.Item>
           )
         })}
-        <Pagination.Next />
-        <Pagination.Last />
+        <Pagination.Next onClick={() => setActivePage(activePage + 1)}/>
+        <Pagination.Last onClick={() => setActivePage(totalPages - 1)} />
       </Pagination>
       {/* <Pagination 
       activePageIndex={activePage} 
@@ -143,53 +144,6 @@ function Articles({articles, isLoading}) {
   )
 }
 
-// function Pagination({totalPages, activePage, changePage}) {
-//   const [pageArray, setPageArray] = useState([])
-//   useEffect(() => {
-//     let totalPages = parseInt(totalPages);
-//     let currentPage = parseInt(activePage);
-//     let pageArr = [];
-//     if (totalPages > 1) {
-//       if (totalPages <= 9) {
-//         var i = 1;
-//         while (i <= totalPages) {
-//           pageArr.push(i);
-//           i++;
-//         }
-//       } else {
-//         if (currentPage <= 5) pageArr = [1, 2, 3, 4, 5, 6, 7, 8, "", totalPages];
-//         else if (totalPages - currentPage <= 4)
-//           pageArr = [
-//             1,
-//             "",
-//             totalPages - 7,
-//             totalPages - 6,
-//             totalPages - 5,
-//             totalPages - 4,
-//             totalPages - 3,
-//             totalPages - 2,
-//             totalPages - 1,
-//             totalPages
-//           ];
-//         else
-//           pageArr = [
-//             1,
-//             "",
-//             currentPage - 3,
-//             currentPage - 2,
-//             currentPage - 1,
-//             currentPage,
-//             currentPage + 1,
-//             currentPage + 2,
-//             currentPage + 3,
-//             "",
-//             totalPages
-//           ];
-//       }
-//     }
-//     setPageArray(pageArr);
-//   }, []);
-// }
 
 // function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages, setTotalResults }) {
 
