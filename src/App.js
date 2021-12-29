@@ -113,9 +113,9 @@ function Articles({articles, isLoading}) {
     ) : (
       <div className="searchresults">
       {articles
-      .map((a) => 
+      .map((a, index) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
+          <li key={a.objectID}>{index + 1 + '. '}<a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
