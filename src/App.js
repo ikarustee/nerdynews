@@ -10,7 +10,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage] = useState(20)
+  const [hitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
@@ -43,8 +43,8 @@ function App() {
     }, 1000)
   }, [activePage, userInput, hitsPerPage, totalPages])
 
-  const changePage = (ind) => {
-    setActivePage(ind)
+  const changePage = (index) => {
+    setActivePage(index)
     window.scrollTo(0,0)
   }
 
@@ -59,13 +59,17 @@ function App() {
       <Pagination>
         <Pagination.First />
         <Pagination.Prev />
-        <Pagination.Item active>{1}</Pagination.Item>
-        <Pagination.Item>{2}</Pagination.Item>
-        <Pagination.Item>{3}</Pagination.Item>
-        <Pagination.Ellipsis />
-        <Pagination.Item>{13}</Pagination.Item>
-        <Pagination.Item>{14}</Pagination.Item>
-        <Pagination.Item>{15}</Pagination.Item>
+        {articles.map((_, index) => {
+          return (
+            <Pagination.Item 
+            onClick={() => changePage(index + 1)}
+            key={index + 1}
+            active={index + 1 === activePage}
+            >
+            {index + 1}
+            </Pagination.Item>
+          )
+        })}
         <Pagination.Next />
         <Pagination.Last />
       </Pagination>
