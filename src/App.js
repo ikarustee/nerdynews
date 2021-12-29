@@ -1,6 +1,8 @@
 import './App.css';
-import React, {useState, useEffect} from "react"
+import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
+import Pagination from 'react-bootstrap/Pagination';
+
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
 
@@ -54,14 +56,27 @@ function App() {
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} />
-      <Pagination 
+      <Pagination>
+        <Pagination.First />
+        <Pagination.Prev />
+        <Pagination.Item active>{1}</Pagination.Item>
+        <Pagination.Item>{2}</Pagination.Item>
+        <Pagination.Item>{3}</Pagination.Item>
+        <Pagination.Ellipsis />
+        <Pagination.Item>{13}</Pagination.Item>
+        <Pagination.Item>{14}</Pagination.Item>
+        <Pagination.Item>{15}</Pagination.Item>
+        <Pagination.Next />
+        <Pagination.Last />
+      </Pagination>
+      {/* <Pagination 
       activePageIndex={activePage} 
       changePage={changePage} 
       setActivePageIndex={setActivePage} 
       setTotalPages={totalPages} 
       totalPages={totalPages}
       setTotalResults={totalResults}
-      />
+      /> */}
     </main>
     </div>
   );
@@ -124,45 +139,93 @@ function Articles({articles, isLoading}) {
   )
 }
 
-function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages, setTotalResults }) {
+// function Pagination({totalPages, activePage, changePage}) {
+//   const [pageArray, setPageArray] = useState([])
+//   useEffect(() => {
+//     let totalPages = parseInt(totalPages);
+//     let currentPage = parseInt(activePage);
+//     let pageArr = [];
+//     if (totalPages > 1) {
+//       if (totalPages <= 9) {
+//         var i = 1;
+//         while (i <= totalPages) {
+//           pageArr.push(i);
+//           i++;
+//         }
+//       } else {
+//         if (currentPage <= 5) pageArr = [1, 2, 3, 4, 5, 6, 7, 8, "", totalPages];
+//         else if (totalPages - currentPage <= 4)
+//           pageArr = [
+//             1,
+//             "",
+//             totalPages - 7,
+//             totalPages - 6,
+//             totalPages - 5,
+//             totalPages - 4,
+//             totalPages - 3,
+//             totalPages - 2,
+//             totalPages - 1,
+//             totalPages
+//           ];
+//         else
+//           pageArr = [
+//             1,
+//             "",
+//             currentPage - 3,
+//             currentPage - 2,
+//             currentPage - 1,
+//             currentPage,
+//             currentPage + 1,
+//             currentPage + 2,
+//             currentPage + 3,
+//             "",
+//             totalPages
+//           ];
+//       }
+//     }
+//     setPageArray(pageArr);
+//   }, []);
+// }
 
-  return (
-    <>
-    <div className="pagination">
-    <p>Total pages: {setTotalPages} | Total results: {setTotalResults}</p>
-      {activePageIndex === 0 ? (
-        <button className="page arrow disabled">&#5176;&#5176;</button>
-      ) : (
-        <button onClick={() => setActivePageIndex(0)} className="page arrow">&#5176;&#5176;</button>
-      )}
-      {activePageIndex === 0 ? (
-        <button className="page disabled">&#5176;</button>
-      ) : (
-        <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
-      )} 
-      {[...Array(15)].map((p, i) => {
-        /* Offset on pagination*/
-        // for (let i = 0; i < totalPages; i++)
-        const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
-        return (
-            <button
-              onClick={() => changePage(ind)}
-              className={`page ${ind === activePageIndex ? 'active' : ''}`}
-              key={i}
-            >{ind + 1}</button>
-        );
-      })}
-      {activePageIndex >= totalPages - 1 ? (
-        <button className="page disabled">&#5171;</button>
-      ) : (
-        <button onClick={() => setActivePageIndex(activePageIndex + 1)} className="page arrow">&#5171;</button>
-      )}
-      {activePageIndex >= totalPages - 1 ? (
-        <button className="page arrow disabled">&#5171;&#5171;</button>
-      ) : (
-        <button onClick={() => setActivePageIndex(totalPages - 1)} className="page arrow">&#5171;&#5171;</button>
-      )}
-    </div>
-    </>
-  );
-}
+// function Pagination({ activePageIndex, changePage, setActivePageIndex, setTotalPages, totalPages, setTotalResults }) {
+
+//   return (
+//     <>
+//     <div className="pagination">
+//     <p>Total pages: {setTotalPages} | Total results: {setTotalResults}</p>
+//       {activePageIndex === 0 ? (
+//         <button className="page arrow disabled">&#5176;&#5176;</button>
+//       ) : (
+//         <button onClick={() => setActivePageIndex(0)} className="page arrow">&#5176;&#5176;</button>
+//       )}
+//       {activePageIndex === 0 ? (
+//         <button className="page disabled">&#5176;</button>
+//       ) : (
+//         <button onClick={() => setActivePageIndex(activePageIndex - 1)} className="page arrow">&#5176;</button>
+//       )} 
+//       {[...Array(15)].map((p, i) => {
+//         /* Offset on pagination*/
+//         // for (let i = 0; i < totalPages; i++)
+//         const ind = activePageIndex > 5 ? activePageIndex - 5 + i : i;
+//         return (
+//             <button
+//               onClick={() => changePage(ind)}
+//               className={`page ${ind === activePageIndex ? 'active' : ''}`}
+//               key={i}
+//             >{ind + 1}</button>
+//         );
+//       })}
+//       {activePageIndex >= totalPages - 1 ? (
+//         <button className="page disabled">&#5171;</button>
+//       ) : (
+//         <button onClick={() => setActivePageIndex(activePageIndex + 1)} className="page arrow">&#5171;</button>
+//       )}
+//       {activePageIndex >= totalPages - 1 ? (
+//         <button className="page arrow disabled">&#5171;&#5171;</button>
+//       ) : (
+//         <button onClick={() => setActivePageIndex(totalPages - 1)} className="page arrow">&#5171;&#5171;</button>
+//       )}
+//     </div>
+//     </>
+//   );
+// }
