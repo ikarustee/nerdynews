@@ -1,6 +1,7 @@
 import './App.css';
 import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
+import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
 
 
@@ -10,7 +11,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage] = useState(10)
+  const [hitsPerPage] = useState(15)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
@@ -21,7 +22,7 @@ function App() {
 
     const url = userInput 
     ? `${API_URL}query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`
-    : `${API_URL}tags=front_page`
+    : `${API_URL}tags=front_page&hitsPerPage=${hitsPerPage}&page=${activePage}`
     setTimeout(() => {
       fetch(url)
       .then((res) => {
@@ -57,7 +58,8 @@ function App() {
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} />
-      <Pagination>
+      <em>Total pages with results: {totalPages}</em>
+      <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)}/>
         <Pagination.Prev onClick={() => setActivePage(activePage - 1)} />
         {articles.map((_, index) => {
