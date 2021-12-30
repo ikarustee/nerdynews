@@ -3,6 +3,7 @@ import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
+import { act } from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
@@ -11,7 +12,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage] = useState(5)
+  const [hitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
@@ -62,15 +63,17 @@ function App() {
       <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
         <Pagination.Prev onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
-        {articles.map((_, index) => {
+        {[...Array(9)].map((_, index) => {
+          const offset = activePage > 4 ? activePage - 4 + index : index 
+
           return (
             <Pagination.Item 
-            onClick={() => changePage(index)}
+            onClick={() => changePage(offset)}
             key={index + 1}
-            active={index === activePage}
-            setTotalPages={totalPages}
+            active={offset === activePage}
+            className={`${offset < totalPages ? 'block' : 'noblock'}`}
             >
-            {index + 1}
+            {offset + 1}
             </Pagination.Item>
           )
         })}

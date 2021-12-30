@@ -80,3 +80,7 @@ li {
   background-color: red;
   border-color: red;
 } */
+
+li.noblock.page-item {
+  display: none;
+}
