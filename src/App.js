@@ -59,7 +59,7 @@ function App() {
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} />
-      <em>Total pages with results: {totalPages}</em>
+      <em>Total result pages: {totalPages} | Total results: {totalResults}</em>
       <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
         <Pagination.Prev onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
@@ -71,9 +71,10 @@ function App() {
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
-            className={`${offset < totalPages ? 'block' : 'noblock'}`}
+            className={`${offset < totalPages ? 'block' : 'hidden'}`}
             >
             {offset + 1}
+            {/* {offset < totalPages ? offset + 1 : null} */}
             </Pagination.Item>
           )
         })}

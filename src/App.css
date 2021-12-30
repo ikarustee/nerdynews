@@ -81,6 +81,6 @@ li {
   border-color: red;
 } */
 
-li.noblock.page-item {
+li.hidden.page-item {
   display: none;
 }
