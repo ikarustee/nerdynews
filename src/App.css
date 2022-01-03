@@ -81,6 +81,7 @@ li {
   border-color: red;
 } */
 
+button {border:0;}
 li.hidden.page-item {
   display: none;
 }

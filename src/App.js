@@ -3,8 +3,6 @@ import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
-import { act } from 'react-dom/cjs/react-dom-test-utils.production.min';
-
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
 
@@ -71,13 +69,14 @@ function App() {
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
-            className={`${offset < totalPages ? 'block' : 'hidden'}`}
+            // className={`${offset < totalPages ? 'block' : 'hidden'}`}
             >
             {offset + 1}
-            {/* {offset < totalPages ? offset + 1 : null} */}
+            {/* {offset < totalPages ? offset + 1 : offset.split} */}
             </Pagination.Item>
           )
-        })}
+        })
+}
         <Pagination.Next onClick={() => setActivePage(activePage + 1)} disabled={activePage === totalPages - 1 ? true : false}/>
         <Pagination.Last onClick={() => setActivePage(totalPages - 1)} disabled={activePage === totalPages - 1 ? true : false}/>
       </Pagination>
