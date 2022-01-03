@@ -69,7 +69,7 @@ function App() {
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
-            // className={`${offset < totalPages ? 'block' : 'hidden'}`}
+            className={`${offset < totalPages ? 'block' : 'hidden'}`}
             >
             {offset + 1}
             {/* {offset < totalPages ? offset + 1 : offset.split} */}
