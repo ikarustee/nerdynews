@@ -73,3 +73,15 @@ li {
   background: dodgerblue;
   color:white;
 }
+
+/* .custom-pn .page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: red;
+  border-color: red;
+} */
+
+button {border:0;}
+li.hidden.page-item {
+  display: none;
+}
