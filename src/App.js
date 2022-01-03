@@ -1,10 +1,12 @@
 import './App.css';
-import {useState, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import Loader from "./components/Loader"
+
+const API_URL = 'https://hn.algolia.com/api/v1/search?'
 
 function App() {
   const [articles, setArticles] = useState([])
-  const [userInput, setUserInput] = useState('web development')
+  const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [hitsPerPage] = useState(20)
   const [activePage, setActivePage] = useState(0)
@@ -14,8 +16,12 @@ function App() {
   // Initial fetch
   useEffect(() => {
     setIsLoading(true)
+
+    const url = userInput 
+    ? `${API_URL}query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`
+    : `${API_URL}tags=front_page`
     setTimeout(() => {
-      fetch(`https://hn.algolia.com/api/v1/search?query=${userInput}&hitsPerPage=${hitsPerPage}&page=${activePage}`)
+      fetch(url)
       .then((res) => {
         if(res.ok) {
           return res.json()
@@ -107,9 +113,9 @@ function Articles({articles, isLoading}) {
     ) : (
       <div className="searchresults">
       {articles
-      .map((a) => 
+      .map((a, index) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}><a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
+          <li key={a.objectID}>{index + 1 + '. '}<a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
