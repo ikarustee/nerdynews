@@ -13,7 +13,7 @@ function App() {
   const [hitsPerPage] = useState(10)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
-  const [totalResults, setTotalResults] = useState(0)
+  // const [totalResults, setTotalResults] = useState(0)
 
   // Initial fetch
   useEffect(() => {
@@ -34,7 +34,7 @@ function App() {
       .then((res) => {
         setArticles(res.hits)
         setTotalPages(res.nbPages)
-        setTotalResults(res.nbHits)
+        // setTotalResults(res.nbHits)
         // console.log(res.nbHits)
         // console.log(res.nbPages)
         setIsLoading(false)
