@@ -56,7 +56,7 @@ function App() {
       <Search getQuery={(userInput) => setUserInput(userInput)} setActivePage={setActivePage} />
     </div>
     <main>
-      <Articles articles={articles} isLoading={isLoading} />
+      <Articles articles={articles} isLoading={isLoading} activePage={activePage} hitsPerPage={hitsPerPage} />
       <em>Total result pages: {totalPages} | Total results: {totalResults}</em>
       <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
@@ -127,7 +127,7 @@ function Search({getQuery, setActivePage}) {
   )
 }
 
-function Articles({articles, isLoading}) {
+function Articles({articles, isLoading, activePage, hitsPerPage}) {
   return (
     <div className="articles">
     {isLoading ? (
@@ -141,7 +141,10 @@ function Articles({articles, isLoading}) {
       {articles
       .map((a, index) => 
         <article key={a.objectID} className='article'>
-          <li key={a.objectID}>{index + 1 + '. '}<a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
+          <li key={a.objectID}>
+          {activePage === 0 ? index + 1 + '. ' : index + 1 + activePage * hitsPerPage + '. ' }
+          {/* {index + 1 + '. '} */}
+          <a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
         </article>
       )}
       </div> 
