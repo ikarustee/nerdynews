@@ -57,7 +57,7 @@ function App() {
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} activePage={activePage} hitsPerPage={hitsPerPage} />
-      <em>Total result pages: {totalPages} | Total results: {totalResults}</em>
+      {/* <em>Total result pages: {totalPages} | Total results: {totalResults}</em> */}
       <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
         <Pagination.Prev onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
