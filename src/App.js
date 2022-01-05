@@ -10,7 +10,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [hitsPerPage] = useState(10)
+  const [hitsPerPage] = useState(8)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   // const [totalResults, setTotalResults] = useState(0)
@@ -140,12 +140,15 @@ function Articles({articles, isLoading, activePage, hitsPerPage}) {
       <div className="searchresults">
       {articles
       .map((a, index) => 
-        <article key={a.objectID} className='article'>
-          <li key={a.objectID}>
-          {activePage === 0 ? index + 1 + '. ' : index + 1 + activePage * hitsPerPage + '. ' }
-          {/* {index + 1 + '. '} */}
-          <a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a></li>
-        </article>
+        <div key={a.objectID} className='article'>
+          <span className="rank">
+            {activePage === 0 ? index + 1 + '. ' : index + 1 + activePage * hitsPerPage + '. ' }
+          </span>
+          <span className="article__info">
+            <a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a><br/>
+            <span className="subtext">{a.points} points by {a.author} hours ago</span>
+          </span>
+        </div>
       )}
       </div> 
     )}
