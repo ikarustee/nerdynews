@@ -26,12 +26,27 @@ main {
   background:#f1f1f1;
   padding: 0.5em 1em;
 }
+.article {
+  display: flex;;
+}
 .articles {
   padding: 1em 0;
 }
-article a {
+.rank {
+  color:grey;
+  display: inline-block;
+  font-size:14px;
+  width: 24px;
+}
+.article a {
   color:dodgerblue;
   text-decoration: none;
+}
+.subtext {
+  color:grey;
+  font-size:10px;
+  position: relative;
+  top:-8px;
 }
 .loader {
   text-align: center;
