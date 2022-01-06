@@ -33,6 +33,9 @@ body {
   padding: 1em 0;
   margin-left: 1em;
 }
+button.search {
+  border:1px solid rgb(239, 239, 239);
+}
 main {
   background:#f1f1f1;
   padding: 0.5em 1em;
