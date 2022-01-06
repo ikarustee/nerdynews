@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="App">
     <div className="hn-header">
-    <a href="/" className="home" alt="home logo">
+    <a href="/nerdynews" className="home" alt="home logo">
       <img src={logo} alt="logo"></img>
       <h3>Nerdynews</h3>
     </a>
