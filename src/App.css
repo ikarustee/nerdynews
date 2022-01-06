@@ -12,8 +12,19 @@ body {
 .hn-header {
   background-color: dodgerblue;
   display: flex;
+  text-align: center;
   padding: 1em;
   align-items: center;
+  gap: 40px;
+  justify-content: space-between;
+}
+.home {
+  display: flex;
+  align-items: center;
+}
+.hn-header a {
+  color:white;
+  text-decoration: none;
 }
 .hn-header h3 {
   color:white;
@@ -21,6 +32,9 @@ body {
 .searchform {
   padding: 1em 0;
   margin-left: 1em;
+}
+button.search {
+  border:1px solid rgb(239, 239, 239);
 }
 main {
   background:#f1f1f1;
@@ -88,14 +102,6 @@ li {
   background: dodgerblue;
   color:white;
 }
-
-/* .custom-pn .page-item.active .page-link {
-  z-index: 3;
-  color: #fff;
-  background-color: red;
-  border-color: red;
-} */
-
 button {border:0;}
 li.hidden.page-item {
   display: none;

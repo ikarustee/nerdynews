@@ -3,6 +3,7 @@ import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
+import logo from './n-logo.jpg'
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
 
@@ -13,7 +14,6 @@ function App() {
   const [hitsPerPage] = useState(8)
   const [activePage, setActivePage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
-  // const [totalResults, setTotalResults] = useState(0)
 
   // Initial fetch
   useEffect(() => {
@@ -34,9 +34,6 @@ function App() {
       .then((res) => {
         setArticles(res.hits)
         setTotalPages(res.nbPages)
-        // setTotalResults(res.nbHits)
-        // console.log(res.nbHits)
-        // console.log(res.nbPages)
         setIsLoading(false)
       })
       .catch((error) => console.log(error))
@@ -45,34 +42,34 @@ function App() {
 
   const changePage = (index) => {
     setActivePage(index)
-    // setArticles((prev) => ({...prev, activePage: activePage}))
     window.scrollTo(0,0)
   }
 
   return (
     <div className="App">
     <div className="hn-header">
+    <a href="/" className="home" alt="home logo">
+      <img src={logo} alt="logo"></img>
       <h3>Nerdynews</h3>
+    </a>
       <Search getQuery={(userInput) => setUserInput(userInput)} setActivePage={setActivePage} />
     </div>
     <main>
       <Articles articles={articles} isLoading={isLoading} activePage={activePage} hitsPerPage={hitsPerPage} />
-      {/* <em>Total result pages: {totalPages} | Total results: {totalResults}</em> */}
       <Pagination className="custom-pn">
         <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
         <Pagination.Prev onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
         {[...Array(9)].map((_, index) => {
           const offset = activePage > 4 ? activePage - 4 + index : index 
+          if(offset >= totalPages) return null
 
           return (
             <Pagination.Item 
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
-            className={`${offset < totalPages ? 'block' : 'hidden'}`}
             >
             {offset + 1}
-            {/* {offset < totalPages ? offset + 1 : offset.split} */}
             </Pagination.Item>
           )
         })
@@ -80,14 +77,6 @@ function App() {
         <Pagination.Next onClick={() => setActivePage(activePage + 1)} disabled={activePage === totalPages - 1 ? true : false}/>
         <Pagination.Last onClick={() => setActivePage(totalPages - 1)} disabled={activePage === totalPages - 1 ? true : false}/>
       </Pagination>
-      {/* <Pagination 
-      activePageIndex={activePage} 
-      changePage={changePage} 
-      setActivePageIndex={setActivePage} 
-      setTotalPages={totalPages} 
-      totalPages={totalPages}
-      setTotalResults={totalResults}
-      /> */}
     </main>
     </div>
   );
@@ -101,7 +90,6 @@ function Search({getQuery, setActivePage}) {
     const searchTerm = e.target.userquery.value
     if(searchTerm) {
       getQuery(searchTerm)
-      // console.log(searchTerm)
       e.target.userquery.value = ''
       setActivePage(0)
     } else {
@@ -116,7 +104,7 @@ function Search({getQuery, setActivePage}) {
       name="userquery"
       placeholder="Search ..."
       />
-      <button type="submit">
+      <button type="submit" className="search">
       <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="4.36289" cy="4.36289" r="3.86289" stroke="currentColor"></circle>
             <rect width="1.09072" height="5.21053" rx="0.545362" transform="matrix(0.707106 -0.707108 0.707106 0.707108 6.54434 7.31555)" fill="currentColor"></rect>
