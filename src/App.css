@@ -10,7 +10,7 @@ body {
   width: calc(100vw - 40px);
 }
 .hn-header {
-  background-color: dodgerblue;
+  background-color: #ff742b;
   display: flex;
   text-align: center;
   padding: 1em;
@@ -64,7 +64,7 @@ main {
   width: 24px;
 }
 .article a {
-  color:dodgerblue;
+  color:#ff742b;
   text-decoration: none;
 }
 .subtext {
@@ -109,8 +109,12 @@ li {
   color:white;
 }
 .page.active {
-  background: dodgerblue;
+  background: #ff742b;
   color:white;
+}
+.page > .page-item.active .page-link {
+  background-color: #ff742b;
+  border-color: #ff742b;
 }
 button {border:0;}
 li.hidden.page-item {

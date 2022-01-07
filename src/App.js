@@ -68,6 +68,7 @@ function App() {
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
+            className="page"
             >
             {offset + 1}
             </Pagination.Item>
