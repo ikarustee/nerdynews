@@ -57,26 +57,26 @@ function App() {
     <main>
       <Articles articles={articles} isLoading={isLoading} activePage={activePage} hitsPerPage={hitsPerPage} />
       <Pagination className="custom-pn">
-        <Pagination.First onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
-        <Pagination.Prev onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
+        <Pagination.First className="orange" onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
+        <Pagination.Prev className="orange" onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
         {[...Array(9)].map((_, index) => {
           const offset = activePage > 4 ? activePage - 4 + index : index 
           if(offset >= totalPages) return null
 
           return (
             <Pagination.Item 
+            className="orange"
             onClick={() => changePage(offset)}
             key={index + 1}
             active={offset === activePage}
-            className="page"
             >
             {offset + 1}
             </Pagination.Item>
           )
         })
 }
-        <Pagination.Next onClick={() => setActivePage(activePage + 1)} disabled={activePage === totalPages - 1 ? true : false}/>
-        <Pagination.Last onClick={() => setActivePage(totalPages - 1)} disabled={activePage === totalPages - 1 ? true : false}/>
+        <Pagination.Next className="orange arrow" onClick={() => setActivePage(activePage + 1)} disabled={activePage === totalPages - 1 ? true : false}/>
+        <Pagination.Last className="orange arrow" onClick={() => setActivePage(totalPages - 1)} disabled={activePage === totalPages - 1 ? true : false}/>
       </Pagination>
     </main>
     </div>
