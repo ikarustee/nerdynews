@@ -33,8 +33,10 @@ body {
   align-items: center;
 }
 .hn-header a {
-  color:white;
+  color: white;
   text-decoration: none;
+  position: relative;
+  top: 4px;
 }
 .hn-header a img {
   width: 40px;
