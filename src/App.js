@@ -3,7 +3,7 @@ import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
-import logo from './n-logo.jpg'
+import logo from './logo.jpg'
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
 
@@ -50,7 +50,7 @@ function App() {
     <div className="hn-header">
     <a href="/nerdynews" className="home" alt="home logo">
       <img src={logo} alt="logo"></img>
-      <h3>Nerdynews</h3>
+      <h3>erdynews</h3>
     </a>
       <Search getQuery={(userInput) => setUserInput(userInput)} setActivePage={setActivePage} />
     </div>

@@ -18,6 +18,12 @@ body {
   gap: 40px;
   justify-content: space-between;
 }
+.hn-header a img {
+  width: 40px;
+  height: auto;
+  position: relative;
+  top: -6px;
+}
 .home {
   display: flex;
   align-items: center;
