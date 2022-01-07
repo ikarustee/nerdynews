@@ -3,7 +3,7 @@ import {useState, useEffect} from "react"
 import Loader from "./components/Loader"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-bootstrap/Pagination';
-import logo from './n-logo-frame.jpg'
+import logo from './logo.jpg'
 
 const API_URL = 'https://hn.algolia.com/api/v1/search?'
 

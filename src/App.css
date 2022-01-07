@@ -22,6 +22,12 @@ body {
   justify-content: space-between;
   border-radius: 12px 12px 0 0;
 }
+.hn-header a img {
+  width: 40px;
+  height: auto;
+  position: relative;
+  top: -6px;
+}
 .home {
   display: flex;
   align-items: center;
