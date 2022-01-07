@@ -26,15 +26,26 @@ body {
   color:white;
   text-decoration: none;
 }
+.hn-header a img {
+  width: 40px;
+  height: auto;
+  position: relative;
+  top: -7px;
+}
 .hn-header h3 {
   color:white;
+  letter-spacing: 1px;
 }
 .searchform {
   padding: 1em 0;
   margin-left: 1em;
 }
+form input[type="text"] {
+  border-radius: 4px 0 0 4px;
+  border: 0;
+}
 button.search {
-  border:1px solid rgb(239, 239, 239);
+  border-radius: 0 4px 4px 0;;
 }
 main {
   background:#f1f1f1;
@@ -58,7 +69,7 @@ main {
 }
 .subtext {
   color:grey;
-  font-size:10px;
+  font-size:12px;
   position: relative;
   top:-8px;
 }
@@ -87,7 +98,6 @@ li {
   display: inline-block;
   border: 0;
   background: white;
-  /* padding: 6px 10px; */
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin-right: 1px;
