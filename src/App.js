@@ -57,8 +57,8 @@ function App() {
     <main>
       <Articles articles={articles} isLoading={isLoading} activePage={activePage} hitsPerPage={hitsPerPage} />
       <Pagination className="custom-pn">
-        <Pagination.First className="orange" onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
-        <Pagination.Prev className="orange" onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
+        <Pagination.First className="orange arrow" onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
+        <Pagination.Prev className="orange arrow" onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
         {[...Array(9)].map((_, index) => {
           const offset = activePage > 4 ? activePage - 4 + index : index 
           if(offset >= totalPages) return null
@@ -135,7 +135,7 @@ function Articles({articles, isLoading, activePage, hitsPerPage}) {
           </span>
           <span className="article__info">
             <a href={a.url} alt={a.title} target="_blank" rel="noopener noreferrer">{a.title || a.story_title}</a><br/>
-            <span className="subtext">{a.points} points by {a.author} hours ago</span>
+            <span className="subtext">{a.points} points by {a.author}</span>
           </span>
         </div>
       )}
