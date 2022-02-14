@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/nerdynews/static/css/main.dd07163a.css",
-    "main.js": "/nerdynews/static/js/main.54ba462f.js",
+    "main.css": "/nerdynews/static/css/main.8655c631.css",
+    "main.js": "/nerdynews/static/js/main.3fefef51.js",
     "static/js/787.fa2b8d16.chunk.js": "/nerdynews/static/js/787.fa2b8d16.chunk.js",
     "index.html": "/nerdynews/index.html",
-    "main.dd07163a.css.map": "/nerdynews/static/css/main.dd07163a.css.map",
-    "main.54ba462f.js.map": "/nerdynews/static/js/main.54ba462f.js.map",
+    "main.8655c631.css.map": "/nerdynews/static/css/main.8655c631.css.map",
+    "main.3fefef51.js.map": "/nerdynews/static/js/main.3fefef51.js.map",
     "787.fa2b8d16.chunk.js.map": "/nerdynews/static/js/787.fa2b8d16.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd07163a.css",
-    "static/js/main.54ba462f.js"
+    "static/css/main.8655c631.css",
+    "static/js/main.3fefef51.js"
   ]
 }
