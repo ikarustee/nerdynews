@@ -15,12 +15,13 @@ body {
 .hn-header {
   background-color: #ff742b;
   display: flex;
+  flex-wrap: wrap;
   text-align: center;
   padding: 1em;
   align-items: center;
-  gap: 40px;
   justify-content: space-between;
   border-radius: 12px 12px 0 0;
+  padding: 25px 40px 10px;
 }
 .hn-header a img {
   width: 40px;
@@ -50,14 +51,19 @@ body {
 }
 .searchform {
   padding: 1em 0;
-  margin-left: 1em;
+  margin-left: 0;
+  flex-basis:100%;
 }
 form input[type="text"] {
   border-radius: 4px 0 0 4px;
   border: 0;
+  height:40px;
+  width:calc(100% - 40px);
 }
 button.search {
-  border-radius: 0 4px 4px 0;;
+  border-radius: 0 4px 4px 0;
+  width: 40px;
+  height:40px;
 }
 main {
   background: #f1f1f1;
@@ -75,6 +81,7 @@ main {
   display: inline-block;
   font-size:14px;
   width: 24px;
+  flex: 0 0 26px;
 }
 .article a {
   color:#ff742b;
@@ -98,7 +105,9 @@ li {
   margin-bottom:6px;
 }
 .pagination {
+  justify-content: center;
   margin: 12px 0;
+  padding-left:16px;
 }
 .page.arrow{
   position: relative;
@@ -144,4 +153,9 @@ li.orange.page-item.active > .page-link {
 button {border:0;}
 li.hidden.page-item {
   display: none;
+}
+@media screen and (min-width:768px) {
+  .searchform {
+    flex-basis: 50%;
+}
 }
