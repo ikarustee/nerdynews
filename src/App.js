@@ -59,8 +59,8 @@ function App() {
       <Pagination className="custom-pn">
         <Pagination.First className="orange arrow" onClick={() => setActivePage(0)} disabled={activePage === 0 ? true : false}/>
         <Pagination.Prev className="orange arrow" onClick={() => setActivePage(activePage - 1)} disabled={activePage === 0 ? true : false} />
-        {[...Array(9)].map((_, index) => {
-          const offset = activePage > 4 ? activePage - 4 + index : index 
+        {[...Array(5)].map((_, index) => {
+          const offset = activePage > 2 ? activePage - 2 + index : index 
           if(offset >= totalPages) return null
 
           return (
